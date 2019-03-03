@@ -8,25 +8,77 @@ import org.junit.Test;
 public class AnagramFinderTest {
 
 	@Test
-	public void findAllOriginalAnagrams2() {
-		List<String> dataList = Stream.of(
-				"Aleksander",
-				"Hiina viisakus",
-				"Pandora laegas")
-				
-		.collect(Collectors.toList());
-		byte[] fileData = ByteStringTestUtils.convertStringsToArray(dataList.toArray(new String[]{}));
+	public void findAnagrams() {
+		byte[] fileData = ByteStringTestUtils.convertStringsToArray(
+				"Madam Curie",
+				"livEs",
+				"lives",
+				"rail safety"
+				);
+		AnagramFinder anagramFinder;
+		String result;
 		
+		anagramFinder = new AnagramFinder();
+		anagramFinder.findAnagrams(fileData, "Radium came");
+		result = anagramFinder.getResults(false);
+		Assert.assertEquals(",Madam Curie", result);
+		
+		anagramFinder = new AnagramFinder();
+		anagramFinder.findAnagrams(fileData, "Elvis");
+		result = anagramFinder.getResults(false);
+		Assert.assertEquals(",lives,livEs", result);
+		
+		anagramFinder = new AnagramFinder();
+		anagramFinder.findAnagrams(fileData, "fairy tales");
+		result = anagramFinder.getResults(false);
+		Assert.assertEquals(",rail safety", result);
+	}
+	
+	@Test
+	public void findSimpleAnagrams() {
+		byte[] fileData = ByteStringTestUtils.convertStringsToArray(
+				"abc",
+				"bca",
+				"cab");
 		AnagramFinder anagramFinder = new AnagramFinder();
 		
-		dataList.forEach(query -> {
-			anagramFinder.findAnagrams(fileData, query);
-			
-		String result = anagramFinder.getResults(false);
+		anagramFinder.findAnagrams(fileData, "cab");
 		
-		Assert.assertEquals("," + query, result);
-		});
+		String result = anagramFinder.getResults(false);
+
+		Assert.assertEquals(",cab,bca,abc", result);
 	}
+
+	@Test
+	public void findCaseInsensitiveAnagrams() {
+		byte[] fileData = ByteStringTestUtils.convertStringsToArray(
+				"ABC",
+				"BcA",
+				"aBC",
+				"cab");
+		AnagramFinder anagramFinder = new AnagramFinder();
+		
+		anagramFinder.findAnagrams(fileData, "CaB");
+		
+		String result = anagramFinder.getResults(true);
+
+		Assert.assertEquals(",aBC,BcA,ABC", result);
+	}
+	
+
+	@Test
+	public void findLongSingleAnagrams() {
+		byte[] fileData = ByteStringTestUtils.convertStringsToArray(
+				"vastupidavustreening");
+		AnagramFinder anagramFinder = new AnagramFinder();
+		
+		anagramFinder.findAnagrams(fileData, "vastupidavustreening");
+		
+		String result = anagramFinder.getResults(false);
+
+		Assert.assertEquals(",vastupidavustreening", result);
+	}
+	
 	
 	@Test
 	public void findAllOriginalAnagrams() {
@@ -43,6 +95,7 @@ public class AnagramFinderTest {
 				"aa",
 				"ažuurtikand",
 				"b-vitamiin",
+				"fiskaalpoliitika",
 				"uvertüür",
 				"v-kesksõna",
 				"vastupidamine",
@@ -52,6 +105,7 @@ public class AnagramFinderTest {
 				"vastupidavustreening",
 				"vastupidi",
 				"ž",
+				"ženšennitinktuur",
 				"žmuud",
 				"žurnalist",
 				"žurnalistika",
@@ -59,10 +113,9 @@ public class AnagramFinderTest {
 				
 		.collect(Collectors.toList());
 		byte[] fileData = ByteStringTestUtils.convertStringsToArray(dataList.toArray(new String[]{}));
-		
-		AnagramFinder anagramFinder = new AnagramFinder();
-		
+			
 		dataList.forEach(query -> {
+			AnagramFinder anagramFinder = new AnagramFinder();
 			anagramFinder.findAnagrams(fileData, query);
 			
 		String result = anagramFinder.getResults(false);
