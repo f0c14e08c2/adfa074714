@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class AnagramFinderTest {
+public class AnagramSequentialFinderTest {
 
 	@Test
 	public void findAnagrams() {
@@ -15,20 +15,20 @@ public class AnagramFinderTest {
 				"lives",
 				"rail safety"
 				);
-		BTreeAnagramFinder anagramFinder;
+		SequentialAnagramFinder anagramFinder;
 		String result;
 		
-		anagramFinder = new BTreeAnagramFinder();
+		anagramFinder = new SequentialAnagramFinder();
 		anagramFinder.findAnagrams(fileData, "Radium came");
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",Madam Curie", result);
 		
-		anagramFinder = new BTreeAnagramFinder();
+		anagramFinder = new SequentialAnagramFinder();
 		anagramFinder.findAnagrams(fileData, "Elvis");
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",lives,livEs", result);
 		
-		anagramFinder = new BTreeAnagramFinder();
+		anagramFinder = new SequentialAnagramFinder();
 		anagramFinder.findAnagrams(fileData, "fairy tales");
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",rail safety", result);
@@ -40,7 +40,7 @@ public class AnagramFinderTest {
 				"abc",
 				"bca",
 				"cab");
-		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
+		SequentialAnagramFinder anagramFinder = new SequentialAnagramFinder();
 		
 		anagramFinder.findAnagrams(fileData, "cab");
 		
@@ -56,7 +56,7 @@ public class AnagramFinderTest {
 				"BcA",
 				"aBC",
 				"cab");
-		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
+		SequentialAnagramFinder anagramFinder = new SequentialAnagramFinder();
 		
 		anagramFinder.findAnagrams(fileData, "CaB");
 		
@@ -70,7 +70,7 @@ public class AnagramFinderTest {
 	public void findLongSingleAnagrams() {
 		byte[] fileData = ByteStringTestUtils.convertStringsToArray(
 				"vastupidavustreening");
-		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
+		SequentialAnagramFinder anagramFinder = new SequentialAnagramFinder();
 		
 		anagramFinder.findAnagrams(fileData, "vastupidavustreening");
 		
@@ -115,7 +115,7 @@ public class AnagramFinderTest {
 		byte[] fileData = ByteStringTestUtils.convertStringsToArray(dataList.toArray(new String[]{}));
 			
 		dataList.forEach(query -> {
-			BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
+			SequentialAnagramFinder anagramFinder = new SequentialAnagramFinder();
 			anagramFinder.findAnagrams(fileData, query);
 			
 		String result = anagramFinder.getResults(false);

@@ -1,31 +1,29 @@
-public class AnagramFinder {
-
-    private static final String STR_COMMA = ",";
-	private byte[] fileData;
-    private byte[] searchWordSorted;
-    private byte[] searchWordOriginal;
-    
-    private static final int MAX_RESULTS = 100;
-    private int resultsSize = 0;
-    private int[] resultsData = new int[MAX_RESULTS];
-    
+public class BTreeAnagramFinder extends AnagramFinder {
+   
     private BinaryFinder binaryFinder = new BinaryFinder();
-    
-    private void pushResult(int resultIdx) {
-    	if (resultsSize < MAX_RESULTS) {
-    		resultsData[resultsSize++] = resultIdx;
-    	} else {
-    		throw new IllegalStateException("Too many results please increase MAX_RESULTS variable");
-    	}
-    }
-    
-    public int popResult() {
-    	return resultsSize > 0 
-    			? resultsData[--resultsSize] 
-    			: -1;
-    }
-    
+        
     private int[] compareDepth = new int[1];
+    
+    @Override
+	public void findAnagrams(byte[] fileData, String query) {
+		this.fileData = fileData;
+		binaryFinder.setFileData(fileData);
+		
+		this.searchWordOriginal = ByteStringUtils.convertToArray(query);
+		
+		int searchWordLen = searchWordOriginal.length;
+		this.searchWordSorted = new byte[searchWordOriginal.length * 2]; 
+		System.arraycopy(searchWordOriginal, 0, searchWordSorted, 0, searchWordLen);
+		System.arraycopy(searchWordOriginal, 0, searchWordSorted, searchWordLen, searchWordLen);
+		
+		ByteStringUtils.toUpperCase(searchWordSorted, 0, searchWordLen);
+		ByteStringUtils.toLowerCase(searchWordSorted, searchWordLen, searchWordLen);
+		
+		ByteStringUtils.sort(searchWordSorted, 0, searchWordSorted.length);
+		
+		findAnagrams(new byte[]{});
+	}
+    
 	private void findAnagrams(byte[] maskedChars) {
 		
 		byte[] maskedWord = ByteStringUtils.applyMask(searchWordSorted, maskedChars);
@@ -89,37 +87,5 @@ public class AnagramFinder {
 		for (int i = 0; i < maskedWord.length; i++) {
 			System.out.print("\t");
 		}
-	}
-
-	public void findAnagrams(byte[] fileData, String query) {
-		this.fileData = fileData;
-		binaryFinder.setFileData(fileData);
-		
-		this.searchWordOriginal = ByteStringUtils.convertToArray(query);
-		
-		int searchWordLen = searchWordOriginal.length;
-		this.searchWordSorted = new byte[searchWordOriginal.length * 2]; 
-		System.arraycopy(searchWordOriginal, 0, searchWordSorted, 0, searchWordLen);
-		System.arraycopy(searchWordOriginal, 0, searchWordSorted, searchWordLen, searchWordLen);
-		
-		ByteStringUtils.toUpperCase(searchWordSorted, 0, searchWordLen);
-		ByteStringUtils.toLowerCase(searchWordSorted, searchWordLen, searchWordLen);
-		
-		ByteStringUtils.sort(searchWordSorted, 0, searchWordSorted.length);
-		
-		findAnagrams(new byte[]{});
-	}
-
-	public String getResults(boolean skipOriginal) {
-		StringBuilder sb = new StringBuilder();
-		int resultIdx = -1;
-		while ((resultIdx = popResult()) >= 0) {
-			boolean skip = skipOriginal && (0 == ByteStringUtils.stringCompareIgnoreCase(fileData, resultIdx, searchWordOriginal));
-			if (!skip) {
-			sb	.append(STR_COMMA)
-				.append(ByteStringUtils.convertToString(fileData, resultIdx));
-			}
-		}
-		return sb.toString();
 	}
 }

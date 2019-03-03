@@ -1,6 +1,7 @@
 import java.nio.charset.Charset;
 
 class ByteStringUtils {
+
 	private static final String ENCODING_CP1257 = "CP1257";
 	
 	private static final int CAP_SMALL_CAHRS_OFFSET = 'a' - 'A';
@@ -16,6 +17,24 @@ class ByteStringUtils {
 		byte t = x[a];
 		x[a] = x[b];
 		x[b] = t;
+	}
+	
+	public static void sortIgnoreCase(byte[] dest, int low, int high) {
+		char firstChar;
+		char secondChar;
+        for (int i = low; i < high; i++) {
+        	int j = i;
+        	while (j > low) {
+	        	firstChar = toLowerCase((char)(dest[j - 1] & 0xFF));
+	        	secondChar = toLowerCase((char)(dest[j] & 0xFF));
+	        	if (firstChar <= secondChar) {
+	        		break;
+	        	}
+	        	swap(dest, j, j - 1);
+	        	j--;
+        	}
+        }
+        return;
 	}
 	
 	public static void sort(byte[] dest, int low, int high) {
@@ -184,7 +203,7 @@ class ByteStringUtils {
 		}
 	}
 
-	private static char toUpperCase(char b) {
+	public static char toUpperCase(char b) {
 		if (('a' <= b && b <= 'z') || (CHAR_a$ <= b && b <= CHAR_z$)) {
 			b = (char)(b - CAP_SMALL_CAHRS_OFFSET);
 		}
@@ -201,7 +220,7 @@ class ByteStringUtils {
 		}
 	}
 
-	private static char toLowerCase(int b) {
+	public static char toLowerCase(int b) {
 		if (('A' <= b && b <= 'Z') || (CHAR_A$ <= b && b <= CHAR_Z$)) {
 			b = (char)(b + CAP_SMALL_CAHRS_OFFSET);
 		}
