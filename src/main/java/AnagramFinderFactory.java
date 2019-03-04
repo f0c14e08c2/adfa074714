@@ -17,7 +17,7 @@ public class AnagramFinderFactory {
 			}
 		}
 
-    	System.out.println(uniqueCharsSize);
+    	//System.out.println(uniqueCharsSize);
     	return uniqueCharsSize > EMPERICAL_THRESHOLD
     			? sequentialAnagramFinder 
     			: btreeAnagramFinder;
