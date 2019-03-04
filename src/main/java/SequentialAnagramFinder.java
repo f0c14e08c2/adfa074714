@@ -6,10 +6,10 @@ public class SequentialAnagramFinder extends AnagramFinder {
     private BinaryFinder binaryFinder = new BinaryFinder();
     
     @Override
-	public void findAnagrams(byte[] fileData, String query) {
+	public void findAnagrams(byte[] fileData, byte[] searchWord) {
 		this.fileData = fileData;
 		binaryFinder.setFileData(fileData);
-		this.searchWordOriginal = ByteStringUtils.convertToArray(query);
+		this.searchWordOriginal = searchWord;
 		int searchWordLen = searchWordOriginal.length;
 		
 		this.searchWordSorted = new byte[searchWordLen]; 
@@ -34,8 +34,6 @@ public class SequentialAnagramFinder extends AnagramFinder {
 			} else if (charsPresentsMap[c]) {
 				i++;
 			} else {
-				//System.out.print(" - ");
-				//ByteStringUtils.printFromBuffer(fileData, start);
 				while (!ByteStringUtils.isEndOfString(fileData, i++));
 				i = seekToEnd(fileData, i);
 				start = i;

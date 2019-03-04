@@ -19,17 +19,17 @@ public class AnagramFinderTest {
 		String result;
 		
 		anagramFinder = new BTreeAnagramFinder();
-		anagramFinder.findAnagrams(fileData, "Radium came");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("Radium came"));
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",Madam Curie", result);
 		
 		anagramFinder = new BTreeAnagramFinder();
-		anagramFinder.findAnagrams(fileData, "Elvis");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("Elvis"));
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",lives,livEs", result);
 		
 		anagramFinder = new BTreeAnagramFinder();
-		anagramFinder.findAnagrams(fileData, "fairy tales");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("fairy tales"));
 		result = anagramFinder.getResults(false);
 		Assert.assertEquals(",rail safety", result);
 	}
@@ -42,7 +42,7 @@ public class AnagramFinderTest {
 				"cab");
 		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
 		
-		anagramFinder.findAnagrams(fileData, "cab");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("cab"));
 		
 		String result = anagramFinder.getResults(false);
 
@@ -58,7 +58,7 @@ public class AnagramFinderTest {
 				"cab");
 		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
 		
-		anagramFinder.findAnagrams(fileData, "CaB");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("CaB"));
 		
 		String result = anagramFinder.getResults(true);
 
@@ -72,7 +72,7 @@ public class AnagramFinderTest {
 				"vastupidavustreening");
 		BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
 		
-		anagramFinder.findAnagrams(fileData, "vastupidavustreening");
+		anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic("vastupidavustreening"));
 		
 		String result = anagramFinder.getResults(false);
 
@@ -116,7 +116,7 @@ public class AnagramFinderTest {
 			
 		dataList.forEach(query -> {
 			BTreeAnagramFinder anagramFinder = new BTreeAnagramFinder();
-			anagramFinder.findAnagrams(fileData, query);
+			anagramFinder.findAnagrams(fileData, ByteStringUtils.convertToArrayStatic(query));
 			
 		String result = anagramFinder.getResults(false);
 		

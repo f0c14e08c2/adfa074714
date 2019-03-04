@@ -5,7 +5,7 @@ public class ByteStringUtilsTest {
 
 	@Test
 	public void toUpperCase() {
-		byte[] fileData = ByteStringUtils.convertToArray(
+		byte[] fileData = ByteStringUtils.convertToArrayStatic(
 				"abc -abczäöõžabc");
 		
 			ByteStringUtils.toUpperCase(fileData, 3, 10);
@@ -16,7 +16,7 @@ public class ByteStringUtilsTest {
 	
 	@Test
 	public void toLowerCase() {
-		byte[] fileData = ByteStringUtils.convertToArray(
+		byte[] fileData = ByteStringUtils.convertToArrayStatic(
 				"ABC -ABCZÄÖÕŽABC");
 		
 			ByteStringUtils.toLowerCase(fileData, 3, 10);

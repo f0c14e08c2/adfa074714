@@ -5,11 +5,11 @@ public class BTreeAnagramFinder extends AnagramFinder {
     private int[] compareDepth = new int[1];
     
     @Override
-	public void findAnagrams(byte[] fileData, String query) {
+	public void findAnagrams(byte[] fileData, byte[] searchWord) {
 		this.fileData = fileData;
 		binaryFinder.setFileData(fileData);
 		
-		this.searchWordOriginal = ByteStringUtils.convertToArray(query);
+		this.searchWordOriginal = searchWord;
 		
 		int searchWordLen = searchWordOriginal.length;
 		this.searchWordSorted = new byte[searchWordOriginal.length * 2]; 
@@ -25,11 +25,8 @@ public class BTreeAnagramFinder extends AnagramFinder {
 	}
     
 	private void findAnagrams(byte[] maskedChars) {
-		
 		byte[] maskedWord = ByteStringUtils.applyMask(searchWordSorted, maskedChars);
 	
-		//addTabs(maskedChars);
-		//System.out.println("D: " + maskedChars.length + " MW: " + new String(maskedWord,  Charset.forName("CP1257")) + " M: " + new String(maskedChars,  Charset.forName("CP1257")));
 		char lastCharFromPreviousResult = 0;
 		
 		for (int i = 0; i < maskedWord.length; i++) {
@@ -47,15 +44,8 @@ public class BTreeAnagramFinder extends AnagramFinder {
 					byte[] query = ByteStringUtils.addToMask(maskedChars, b);
 
 					int responseIdx = binaryFinder.locateNearestWordPosition(query);
-//					addTabs(maskedChars);
-//					System.out.print("q: " + new String(query, Charset.forName("CP1257")) + " res: ");
-//					if (responseIdx >= 0)
-//						ByteStringUtils.printFromBuffer(fileData, responseIdx);
-//					else 
-//						System.out.println("responseIdx: " + responseIdx);
-//					
+					
 					if (responseIdx >= 0) {
-
 						boolean queryEqResponse = (0 == ByteStringUtils.stringCompareWithMaxLenWithDepth(fileData, responseIdx, query, query.length, compareDepth));
 						
 						// Optimization: Skip all following branches if response doesn't match to root criteria 
@@ -68,8 +58,6 @@ public class BTreeAnagramFinder extends AnagramFinder {
 						if (query.length == searchWordOriginal.length) {
 							if (0 == ByteStringUtils.stringCompare(fileData, responseIdx, query)) {
 								pushResult(responseIdx);
-								//System.out.print("RESULT -> ");
-								//ByteStringUtils.printFromBuffer(fileData, responseIdx);
 							}
 						}
 						
@@ -80,12 +68,6 @@ public class BTreeAnagramFinder extends AnagramFinder {
 					}
 				}
 			}
-		}
-	}
-
-	private void addTabs(byte[] maskedWord) {
-		for (int i = 0; i < maskedWord.length; i++) {
-			System.out.print("\t");
 		}
 	}
 }

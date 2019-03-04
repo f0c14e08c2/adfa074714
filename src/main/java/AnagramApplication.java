@@ -4,6 +4,7 @@ class AnagramApplication {
 
     private static final FileReader fileReader = new FileReader();
     private static final AnagramFinderFactory anagramFinderFactory = new AnagramFinderFactory();
+    private static final ByteStringUtils byteStringUtils = new ByteStringUtils();
     
 	public static void main(String[] argv) {
 		
@@ -23,15 +24,20 @@ class AnagramApplication {
 
 		//while (true) {
 		    long startTime = System.nanoTime();
-		    AnagramFinder anagramFinder = anagramFinderFactory.getAnagramFinder(argv[1]);
-			anagramFinder.findAnagrams(
-					fileReader.readFile(argv[0]),
-					argv[1]);
+		    String result = "";
+		    
+		    byte[] searchWord = byteStringUtils.convertToArray(argv[1]);
+		    AnagramFinder anagramFinder = anagramFinderFactory.getAnagramFinder(searchWord);
+			if (anagramFinder != null) {
+			    anagramFinder.findAnagrams(
+						fileReader.readFile(argv[0]),
+						searchWord);
+				
+				result = anagramFinder.getResults(true);
+			}
 			
-			String result = anagramFinder.getResults(true);
-	
 			long durationNs = System.nanoTime() - startTime;
-		    System.out.println((durationNs / 1000) + "µs" + result);
+		    System.out.println((durationNs / 1000) + result);
 		//}
 	}
 }

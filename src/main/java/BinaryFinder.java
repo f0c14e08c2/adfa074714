@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class BinaryFinder {
-	
+		
 	private byte[] fileData;
 	private byte[] previousSearchWord = null;
 	private int previousResult = -1;
@@ -24,8 +24,8 @@ public class BinaryFinder {
 	}
 
 	public int locateNearestWordPosition(byte[] searchWord) {
-		int res = -1;
-		
+
+		// Optimization: Checks that previous result was "bigger" than current search word 
 		if (previousResult >= 0) {
 			if (ByteStringUtils.stringCompare(previousSearchWord, 0, searchWord) < 0) {
 				if (ByteStringUtils.stringCompare(fileData, previousResult, searchWord) > 0) {
@@ -34,58 +34,44 @@ public class BinaryFinder {
 			}
 		} 
 		
-		res = locateNearestWordWithDictionaryDistribution(searchWord);
-		
-		previousResult = res;
+		previousResult = locateNearestWordWithDictionaryDistribution(searchWord);
 		previousSearchWord = searchWord;
 		
-		return res;
+		return previousResult;
 	}
 
 	private int locateNearestWordWithDictionaryDistribution(byte[] searchWord) {
 		final char firstChar = (char) (searchWord[0] & 0xFF);
 		final char nextChar = (char)(firstChar + 1);
-		boolean fromCache = false;
 		
-		if (searchWord.length == 1) {
-			final int cachedLowerBound = wordDistributionMap[firstChar];
-			final int cachedUpperBound = wordDistributionMap[nextChar];
-			fromCache = cachedLowerBound >= 0 && cachedUpperBound >= 0;
-			if (fromCache) {
-				lowerBound = cachedLowerBound;
-				upperBound = cachedUpperBound;
-			}
-		} 
-		
-		if (!fromCache) {
-			lowerBound = prevousCachedLowerBound;
-			upperBound = fileData.length - 1;
-		}
+		final int cachedLowerBound = wordDistributionMap[firstChar];
+		final int cachedUpperBound = wordDistributionMap[nextChar];
+		boolean fromCache = cachedLowerBound >= 0 && cachedUpperBound >= 0;
+		lowerBound = fromCache ? cachedLowerBound : prevousCachedLowerBound;
+		upperBound = fromCache ? cachedUpperBound : fileData.length - 1;
 		
 		int wordPostion = locateNearestWordPositionInt(searchWord);
 		
-		if (!fromCache && searchWord.length == 1 && wordPostion >= 0) {
-			
-			wordDistributionMap[firstChar] = wordPostion;
-			
-			if (fileData[wordPostion] != searchWord[0]) {
-				wordDistributionMap[nextChar] = wordPostion;
-			} else {
-				upperBound = fileData.length - 1;
-				wordDistributionMap[nextChar] = locateNearestWordPositionInt(new byte[] {(byte)nextChar});
-			}
-			
-//			System.out.println("Caching range for'" + firstChar + "' first(" + wordDistributionMap[firstChar] + ") last(" + wordDistributionMap[nextChar] + ") range");
-//			ByteStringUtils.printFromBuffer(fileData, wordDistributionMap[firstChar]);
-//			if (wordDistributionMap[nextChar] != -1) {
-//				ByteStringUtils.printFromBuffer(fileData, wordDistributionMap[nextChar]);
-//			}
-		}
-		
+		// Optimization: Skip already processed part of buffer for next call
 		if (wordPostion > 1) {
 			prevousCachedLowerBound = wordPostion - 2;
 		}
 		
+		// Optimization: Reduces binary search range for first char 
+		if (!fromCache && searchWord.length == 1 && wordPostion >= 0) {
+			wordDistributionMap[firstChar] = wordPostion;
+			
+			if (fileData[wordPostion] != searchWord[0]) {
+				wordDistributionMap[nextChar] = wordPostion;
+			} else if (nextChar > ByteStringUtils.CHAR_z$) {
+				wordDistributionMap[nextChar] = fileData.length - 1;
+			} else {
+				lowerBound = wordPostion;
+				upperBound = fileData.length - 1;
+				wordDistributionMap[nextChar] = locateNearestWordPositionInt(new byte[] {(byte)nextChar});
+			}
+		}
+			
 		return wordPostion;
 	}
 
@@ -108,7 +94,6 @@ public class BinaryFinder {
 				if (wordPostion == -1) {
 					break;
 				}
-				//tryPostion = wordPostion;
 				compareResult = ByteStringUtils.stringCompare(fileData, wordPostion, searchWord);
 
 				if (prevWordPostion != wordPostion) {
@@ -117,14 +102,8 @@ public class BinaryFinder {
 				}
 			}
 			
-			//System.out.println(" TPos: " + tryPostion + " WPos: " + (wordPostion << 1));
-			
 			prevTryPostion = tryPostion;
 			
-			//ByteStringUtils.printFromBuffer(fileData, wordPostion);
-			//System.out.print(" CMP: " + compareResult + " ");
-			//ByteStringUtils.printFromBuffer(searchWord, 0);
-			//System.out.println("");
 			if (compareResult < 0) {				
 				if(lowerBound == tryPostion) {
 					break;
@@ -138,16 +117,13 @@ public class BinaryFinder {
 			} else {
 				return wordPostion;
 			}
-
-			//System.out.println(" U " + upperBound + " L " + lowerBound);
 		}	
 		
 		if (lastDiffWordPostion != -1 && lastDiffWordPostion != wordPostion && compareResult < 0) {
+			// For partial match return "bigger" result
 			wordPostion = lastDiffWordPostion;
 		}
-		//System.out.println("Bin search complete " + wordPostion);
 		
 		return wordPostion;
 	}
-
 }

@@ -9,7 +9,7 @@ class ByteStringUtils {
 	private static final Charset charsetCP1257 = Charset.forName(ENCODING_CP1257);
 
 	private static final char CHAR_a$ = (char)("ą".getBytes(charsetCP1257)[0] & 0xFF);
-	private static final char CHAR_z$ = (char)("ž".getBytes(charsetCP1257)[0] & 0xFF);
+	public static final char CHAR_z$ = (char)("ž".getBytes(charsetCP1257)[0] & 0xFF);
 	private static final char CHAR_Z$ = (char)("Ž".getBytes(charsetCP1257)[0] & 0xFF);
 	private static final char CHAR_A$ = (char)("Ą".getBytes(charsetCP1257)[0] & 0xFF);
 
@@ -178,19 +178,15 @@ class ByteStringUtils {
 		return new String(fileData, stringLocation, stringSize, charsetCP1257);
 	}
 
-	public static byte[] convertToArray(String string) {
-		return string.getBytes(Charset.forName(ENCODING_CP1257));
-	}
-
-	public static void printFromBuffer(byte[] buffer, int offset) {
-		int m = offset;
-		while (m < buffer.length) {
-			System.out.print(new String(new byte[]{buffer[m++]}, charsetCP1257));
-			if (m >= buffer.length || (buffer[m] == '\n' || buffer[m] == '\r')) {
-				System.out.println();
-				break;
-			}
+	public byte[] convertToArray(String string) {
+		if (string.length() < 2) {
+			return new byte[]{};
 		}
+		return convertToArrayStatic(string);
+	}
+	
+	public static byte[] convertToArrayStatic(String string) {
+		return string.getBytes(Charset.forName(ENCODING_CP1257));
 	}
 
 	public static void toUpperCase(byte[] fileData, int startIdx, int length) {

@@ -11,7 +11,7 @@ public abstract class AnagramFinder {
     private int[] resultsData = new int[MAX_RESULTS];
     
     
-	public abstract void findAnagrams(byte[] fileData, String query);
+	public abstract void findAnagrams(byte[] fileData, byte[] searchWord);
     
     
     protected void pushResult(int resultIdx) {

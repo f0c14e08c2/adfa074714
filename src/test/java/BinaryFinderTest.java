@@ -15,7 +15,7 @@ public class BinaryFinderTest {
 		BinaryFinder binaryFinder = new BinaryFinder();
 		binaryFinder.setFileData(fileData);
 		
-		int stringLocation = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("a"));
+		int stringLocation = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic(("a")));
 		
 		Assert.assertEquals("a", ByteStringUtils.convertToString(fileData, stringLocation));
 	}
@@ -39,16 +39,16 @@ public class BinaryFinderTest {
 		BinaryFinder binaryFinder = new BinaryFinder();
 		binaryFinder.setFileData(fileData);
 		
-		int stringLocationAaa = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("Aaa"));
-		int stringLocationAc = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("Ac"));
-		int stringLocationAl = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("Al"));
-		int stringLocationH = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("H "));
-		int stringLocationA = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("a"));
-		int stringLocationU = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("u"));
-		int stringLocationVdash = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("v-"));
-		int stringLocationVastupidami = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("vastupidami"));
-		int stringLocationVastupidavu = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("vastupidavu"));
-		int stringLocationVe = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray("ve"));
+		int stringLocationAaa = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("Aaa"));
+		int stringLocationAc = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("Ac"));
+		int stringLocationAl = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("Al"));
+		int stringLocationH = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("H "));
+		int stringLocationA = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("a"));
+		int stringLocationU = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("u"));
+		int stringLocationVdash = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("v-"));
+		int stringLocationVastupidami = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("vastupidami"));
+		int stringLocationVastupidavu = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("vastupidavu"));
+		int stringLocationVe = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic("ve"));
 		
 		Assert.assertEquals("Aadam", ByteStringUtils.convertToString(fileData, stringLocationAaa));
 		Assert.assertEquals("AcCilleus", ByteStringUtils.convertToString(fileData, stringLocationAc));
@@ -100,7 +100,7 @@ public class BinaryFinderTest {
 		binaryFinder.setFileData(fileData);
 		
 		dataList.forEach(query -> {
-			int stringLocation = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArray(query));
+			int stringLocation = binaryFinder.locateNearestWordPosition(ByteStringUtils.convertToArrayStatic(query));
 			Assert.assertEquals(query, ByteStringUtils.convertToString(fileData, stringLocation));
 		});
 	}
