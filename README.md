@@ -11,7 +11,7 @@ __java AnagramApplication dict.txt word__
 
 Timing is shown in microseconds (µs) and looks like for word 'ahta'
 
-__3334,taha__
+__2027,taha__
 
 # Notes
 This application can work much faster if:
