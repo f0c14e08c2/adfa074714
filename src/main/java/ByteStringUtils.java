@@ -98,18 +98,18 @@ class ByteStringUtils {
     }
  
 	public static int stringCompare(byte[] str1, int str1Offset, byte[] str2) {
-		 return stringCompareInt(str1, str1Offset, str2, Integer.MAX_VALUE, null, false);
+		 return stringCompareExtended(str1, str1Offset, str2, Integer.MAX_VALUE, null, false);
 	}
 	
 	public static int stringCompareIgnoreCase(byte[] str1, int str1Offset, byte[] str2) {
-		 return stringCompareInt(str1, str1Offset, str2, Integer.MAX_VALUE, null, true);
+		 return stringCompareExtended(str1, str1Offset, str2, Integer.MAX_VALUE, null, true);
 	}
 	
 	public static int stringCompareWithMaxLenWithDepth(byte[] str1, int str1Offset, byte[] str2, int maxLenToCompare, int[] compareDepth) {
-		return stringCompareInt(str1, str1Offset, str2, maxLenToCompare, compareDepth, false);
+		return stringCompareExtended(str1, str1Offset, str2, maxLenToCompare, compareDepth, false);
 	}
 	
-	private static int stringCompareInt(byte[] str1, int str1Offset, byte[] str2, int maxLenToCompare, int[] compareDepth, boolean ignoreCase) { 
+	public static int stringCompareExtended(byte[] str1, int str1Offset, byte[] str2, int maxLenToCompare, int[] compareDepth, boolean ignoreCase) { 
 		int i = 0;
 		int cmpRet = 0;
 		boolean isStr1SizeLimit;

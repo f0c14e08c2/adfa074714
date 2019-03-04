@@ -47,15 +47,16 @@ public class SequentialAnagramFinder extends AnagramFinder {
 		}
 	}
 
+    byte[] tempSearchWordSorted = new byte[1024];
 	private void checkForAnagram(byte[] fileData, int i, int start) {
 		int foundWordLen = i - start;
 
-		byte[] tempSearchWordSorted = new byte[foundWordLen];
-		System.arraycopy(fileData, start, tempSearchWordSorted, 0, foundWordLen);
-		
-		ByteStringUtils.sortIgnoreCase(tempSearchWordSorted, 0, foundWordLen);
-		if (0 == ByteStringUtils.stringCompareIgnoreCase(tempSearchWordSorted, 0, searchWordSorted)) {
-			pushResult(start);
+		if (foundWordLen == searchWordSorted.length) {
+			System.arraycopy(fileData, start, tempSearchWordSorted, 0, foundWordLen);
+			ByteStringUtils.sortIgnoreCase(tempSearchWordSorted, 0, foundWordLen);
+			if (0 == ByteStringUtils.stringCompareExtended(tempSearchWordSorted, 0, searchWordSorted, foundWordLen, null, true)) {
+				pushResult(start);
+			}
 		}
 	}
 
