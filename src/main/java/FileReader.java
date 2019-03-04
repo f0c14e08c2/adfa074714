@@ -4,6 +4,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class FileReader {
+	
+	static {
+		// Preload classes
+		File.class.getName();
+		DataInputStream.class.getName();
+		FileInputStream.class.getName();
+		IOException.class.getName();
+		RuntimeException.class.getName();
+	}
 
 	public byte[] readFile(String pathToFile) {
 	    

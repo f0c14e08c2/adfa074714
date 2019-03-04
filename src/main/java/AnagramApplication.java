@@ -22,22 +22,20 @@ class AnagramApplication {
 			return;
 		}
 
-		//while (true) {
-		    long startTime = System.nanoTime();
-		    String result = "";
-		    
-		    byte[] searchWord = byteStringUtils.convertToArray(argv[1]);
-		    AnagramFinder anagramFinder = anagramFinderFactory.getAnagramFinder(searchWord);
-			if (anagramFinder != null) {
-			    anagramFinder.findAnagrams(
-						fileReader.readFile(argv[0]),
-						searchWord);
-				
-				result = anagramFinder.getResults(true);
-			}
+	    long startTime = System.nanoTime();
+	    String result = "";
+	    
+	    byte[] searchWord = byteStringUtils.convertToArray(argv[1]);
+	    AnagramFinder anagramFinder = anagramFinderFactory.getAnagramFinder(searchWord);
+		if (anagramFinder != null) {
+		    anagramFinder.findAnagrams(
+					fileReader.readFile(argv[0]),
+					searchWord);
 			
-			long durationNs = System.nanoTime() - startTime;
-		    System.out.println((durationNs / 1000) + result);
-		//}
+			result = anagramFinder.getResults(true);
+		}
+		
+		long durationNs = System.nanoTime() - startTime;
+	    System.out.println((durationNs / 1000) + result);
 	}
 }

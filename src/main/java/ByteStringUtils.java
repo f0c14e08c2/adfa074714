@@ -174,7 +174,7 @@ class ByteStringUtils {
 	}
 	
 	public static String convertToString(byte[] fileData, int stringLocation) {
-		final int stringSize = ByteStringUtils.stringSize(fileData, stringLocation);
+		final int stringSize = stringSize(fileData, stringLocation);
 		return new String(fileData, stringLocation, stringSize, charsetCP1257);
 	}
 

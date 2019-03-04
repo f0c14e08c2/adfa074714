@@ -1,5 +1,11 @@
 public abstract class AnagramFinder {
 
+	static {
+		// Preload classes
+		StringBuilder.class.getName();
+		IllegalStateException.class.getName();
+	}
+	
 	protected byte[] fileData;
 	protected byte[] searchWordSorted;
 	protected byte[] searchWordOriginal;
@@ -10,9 +16,7 @@ public abstract class AnagramFinder {
     private int resultsSize = 0;
     private int[] resultsData = new int[MAX_RESULTS];
     
-    
 	public abstract void findAnagrams(byte[] fileData, byte[] searchWord);
-    
     
     protected void pushResult(int resultIdx) {
     	if (resultsSize < MAX_RESULTS) {
