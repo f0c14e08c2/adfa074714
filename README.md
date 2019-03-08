@@ -9,9 +9,9 @@ Use following command, from current directory, to execute application:
 
 __java AnagramApplication dict.txt word__
 
-Timing is shown in microseconds (µs) and looks like for word 'ahta'
+Timing is shown in microseconds (µs) and looks like for word 'era'
 
-__2027,taha__
+__load:886,srch:548,all:1435,rea,rae,are,aer__
 
 # Notes
 This application can work much faster if:

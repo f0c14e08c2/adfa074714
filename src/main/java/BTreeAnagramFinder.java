@@ -12,12 +12,13 @@ public class BTreeAnagramFinder extends AnagramFinder {
 		this.searchWordOriginal = searchWord;
 		
 		int searchWordLen = searchWordOriginal.length;
-		this.searchWordSorted = new byte[searchWordOriginal.length * 2]; 
+		//this.searchWordSorted = new byte[searchWordOriginal.length * 2]; 
+		this.searchWordSorted = new byte[searchWordOriginal.length];
 		System.arraycopy(searchWordOriginal, 0, searchWordSorted, 0, searchWordLen);
-		System.arraycopy(searchWordOriginal, 0, searchWordSorted, searchWordLen, searchWordLen);
+		//System.arraycopy(searchWordOriginal, 0, searchWordSorted, searchWordLen, searchWordLen);
 		
-		ByteStringUtils.toUpperCase(searchWordSorted, 0, searchWordLen);
-		ByteStringUtils.toLowerCase(searchWordSorted, searchWordLen, searchWordLen);
+		//ByteStringUtils.toUpperCase(searchWordSorted, 0, searchWordLen);
+		//ByteStringUtils.toLowerCase(searchWordSorted, searchWordLen, searchWordLen);
 		
 		ByteStringUtils.sort(searchWordSorted, 0, searchWordSorted.length);
 		

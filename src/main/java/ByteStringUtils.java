@@ -131,10 +131,10 @@ class ByteStringUtils {
         	int str1_ch = str1[i + str1Offset] & 0xFF; 
         	int str2_ch = str2[i] & 0xFF;
         	
-        	if (ignoreCase) {
-        		str1_ch = toLowerCase(str1_ch);
-        		str2_ch = toLowerCase(str2_ch);
-        	}
+//        	if (ignoreCase) {
+//        		str1_ch = toLowerCase(str1_ch);
+//        		str2_ch = toLowerCase(str2_ch);
+//        	}
         	
             if (str1_ch != str2_ch) {
             	cmpRet = str1_ch - str2_ch;
