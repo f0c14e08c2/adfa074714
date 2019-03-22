@@ -25,24 +25,17 @@ class AnagramApplication {
 	    long startTime = System.nanoTime();
 	    String result = "";
 	    
-	    byte[] fileData = fileReader.readFile(argv[0]);
-	    
-	    long fileLoadTime = System.nanoTime();
-	    
 	    byte[] searchWord = byteStringUtils.convertToArray(argv[1]);
 	    AnagramFinder anagramFinder = anagramFinderFactory.getAnagramFinder(searchWord);
 		if (anagramFinder != null) {
 		    anagramFinder.findAnagrams(
-		    		fileData,
+		    		fileReader.readFile(argv[0]),
 					searchWord);
 			
 			result = anagramFinder.getResults(true);
 		}
 		
-		long durationAll = System.nanoTime() - startTime;
-		long durationFileLoad = fileLoadTime - startTime;
-		long durationSearch = durationAll - durationFileLoad;
-		
-	    System.out.println("load:" + (durationFileLoad / 1000) + ",srch:" + (durationSearch / 1000) + ",all:" + (durationAll / 1000) + result);
+		long durationNs = System.nanoTime() - startTime;
+	    System.out.println((durationNs / 1000) + result);
 	}
 }

@@ -11,7 +11,7 @@ __java AnagramApplication dict.txt word__
 
 Timing is shown in microseconds (µs) and looks like for word 'era'
 
-__load:886,srch:548,all:1435,rea,rae,are,aer__
+__1599,rea,rae,are,aer__
 
 # Notes
 This application can work much faster if:
